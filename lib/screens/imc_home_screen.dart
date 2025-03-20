@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:imc/components/gender_selector.dart';
@@ -7,6 +6,7 @@ import 'package:imc/components/number_selector.dart';
 import 'package:imc/core/app_color.dart';
 import 'package:imc/core/constants.dart';
 import 'package:imc/core/text_styles.dart';
+import 'package:imc/screens/imc_result_screen.dart';
 
 class ImcHomeScreen extends StatefulWidget {
   const ImcHomeScreen({super.key});
@@ -20,12 +20,19 @@ class _ImcHomeScreenState extends State<ImcHomeScreen> {
   bool selectedFemale = false;
   int selectedEdge = Constants.edgeInitial.toInt();
   int selectedWeight = Constants.weightInitial.toInt();
-  int selectedHeight = Constants.heightMin.toInt();
+  int selectedHeight = Constants.heightInitial.toInt();
   int selectedGender = Constants.genderMale;
 
   @override
   Widget build(BuildContext context) {
-    log("Genero seleccionado $selectedGender", name: "RAFADEVELOP");
+    return Scaffold(
+      appBar: toolbarHome(),
+      backgroundColor: AppColors.background,
+      body: bodyHome(context),
+    );
+  }
+
+  Column bodyHome(BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -122,7 +129,19 @@ class _ImcHomeScreenState extends State<ImcHomeScreen> {
             height: 60,
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder:
+                        (context) => ImcResultScreen(
+                          height: selectedHeight,
+                          weight: selectedWeight,
+                          edge: selectedEdge,
+                        ),
+                  ),
+                );
+              },
               style: ButtonStyle(
                 shape: WidgetStateProperty.all(
                   RoundedRectangleBorder(
@@ -138,4 +157,12 @@ class _ImcHomeScreenState extends State<ImcHomeScreen> {
       ],
     );
   }
+}
+
+AppBar toolbarHome() {
+  return AppBar(
+    title: Text('IMC Calculator'),
+    backgroundColor: AppColors.primary,
+    foregroundColor: Colors.white,
+  );
 }
