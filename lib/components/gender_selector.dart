@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:imc/core/app_color.dart';
@@ -15,7 +14,8 @@ class GenderSelector extends StatefulWidget {
   final String gender;
   final String image;
   final bool? selectedGender;
-  final VoidCallback onPressed;
+  //final VoidCallback onPressed; //No devuelve nada
+  final void Function(int,String) onPressed; //Devuelve un entero y un string
 
   @override
   State<GenderSelector> createState() => _GenderSelectorState();
@@ -27,11 +27,11 @@ class _GenderSelectorState extends State<GenderSelector> {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector( onTap: (){
-        log("prueba",name: "RAFADEVELOP");
-        widget.onPressed();
+        //widget.onPressed(); // No devuelve nada y se usa final VoidCallback onPressed;
+        widget.onPressed(45, "Perfecto");
       },
           child: Padding(
-            padding: const EdgeInsets.only(left:16,top:16,bottom:16, right:8),
+            padding: const EdgeInsets.only(left:8,top:8,bottom:8, right:8),
             child: Container(
               decoration: BoxDecoration(
                 color: widget.selectedGender == true ? 
