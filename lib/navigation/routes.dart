@@ -9,7 +9,7 @@ class AppRoutes {
     BuildContext context,
     int height,
     int weight,
-    int edge,
+    int edge, 
   ) {
     Navigator.push(
       context,
