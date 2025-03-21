@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:imc/core/app_color.dart';
+import 'package:imc/core/constants.dart';
 import 'package:imc/core/text_styles.dart';
+import 'package:imc/data/imc_result.dart';
+import 'package:imc/navigation/routes.dart';
 
 class ImcResultScreen extends StatelessWidget {
   final int height;
@@ -24,7 +27,9 @@ class ImcResultScreen extends StatelessWidget {
   }
 
   Padding bodyResult(BuildContext context) {
+    
     double imc = weight / ((height / 100) * (height / 100));
+    ImcResult imcResult = getImcResult(imc);
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -52,11 +57,11 @@ class ImcResultScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Text(
-                      getTitleByImc(imc),
+                      imcResult.title,
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w600,
-                        color: getColorByImc(imc),
+                        color: imcResult.color,
                      ),
                     ),
                     Text(
@@ -70,7 +75,7 @@ class ImcResultScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        getDescriptionByImc(imc),
+                        imcResult.description,
                         style: TextStyle(
                           fontSize: 26,
                           fontWeight: FontWeight.w400,
@@ -89,7 +94,7 @@ class ImcResultScreen extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
+                AppRoutes.goToImcHomeScreen(context);
               },
               style: ButtonStyle(
                 shape: WidgetStateProperty.all(
@@ -115,30 +120,12 @@ class ImcResultScreen extends StatelessWidget {
     );
   }
   
-  Color getColorByImc(double imc) {
+  ImcResult getImcResult(double imc) {
     return switch (imc) {
-      < 18.5 => Colors.blue, //IMC Bajo
-      < 24.9 => Colors.green, //IMC normal
-      < 29.99 => Colors.orange, //IMC sobrepeso
-      _ => Colors.red, //IMC obesidad
-    };
-  }
-
-  String getTitleByImc(double imc) {
-    return switch (imc) {
-      < 18.5 => "BAJO", //IMC Bajo
-      < 24.9 => "NORMAL", //IMC normal
-      < 29.99 => "SOBREPESO", //IMC sobrepeso
-      _ => "OBESIDAD", //IMC obesidad
-    };
-  }
-
-  String getDescriptionByImc(double imc) {
-    return switch (imc) {
-      < 18.5 => "Your weight is below normal. Consider consulting a healthcare provider." , //IMC Bajo
-      < 24.9 => "You are in the normal range. Keep it up!", //IMC normal
-      < 29.99 => "You are slightly overweight. Consider a balanced diet and exercise.", //IMC sobrepeso
-      _ => "You are in the obesity range. Consult a healthcare provider for advice.", //IMC obesidad
+      < 18.5 => Constants.imcResultLow,
+      < 24.9 => Constants.imcResultNormal,
+      < 29.99 => Constants.imcResultOverWeight,
+      _ => Constants.imcResultObesity,
     };
   }
 }

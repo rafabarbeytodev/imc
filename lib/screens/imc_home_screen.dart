@@ -6,7 +6,7 @@ import 'package:imc/components/number_selector.dart';
 import 'package:imc/core/app_color.dart';
 import 'package:imc/core/constants.dart';
 import 'package:imc/core/text_styles.dart';
-import 'package:imc/screens/imc_result_screen.dart';
+import 'package:imc/navigation/routes.dart';
 
 class ImcHomeScreen extends StatefulWidget {
   const ImcHomeScreen({super.key});
@@ -130,16 +130,11 @@ class _ImcHomeScreenState extends State<ImcHomeScreen> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                AppRoutes.goToImcResultScreen(
                   context,
-                  MaterialPageRoute(
-                    builder:
-                        (context) => ImcResultScreen(
-                          height: selectedHeight,
-                          weight: selectedWeight,
-                          edge: selectedEdge,
-                        ),
-                  ),
+                  selectedHeight,
+                  selectedWeight,
+                  selectedEdge,
                 );
               },
               style: ButtonStyle(
